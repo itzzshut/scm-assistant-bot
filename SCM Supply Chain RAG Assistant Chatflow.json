@@ -1,0 +1,828 @@
+{
+  "nodes": [
+    {
+      "id": "chatGoogleGenerativeAI_0",
+      "position": {
+        "x": 360.6489330501231,
+        "y": 154.48654544111355
+      },
+      "type": "customNode",
+      "data": {
+        "id": "chatGoogleGenerativeAI_0",
+        "label": "Google Gemini",
+        "version": 3.1,
+        "name": "chatGoogleGenerativeAI",
+        "type": "ChatGoogleGenerativeAI",
+        "baseClasses": [
+          "ChatGoogleGenerativeAI",
+          "ChatGoogleGenerativeAI",
+          "BaseChatModel",
+          "BaseLanguageModel",
+          "Runnable"
+        ],
+        "category": "Chat Models",
+        "description": "Wrapper around Google Gemini large language models that use the Chat endpoint",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "googleGenerativeAI"
+            ],
+            "optional": false,
+            "description": "Google Generative AI credential.",
+            "id": "chatGoogleGenerativeAI_0-input-credential-credential",
+            "display": true
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "default": "gemini-1.5-flash-latest",
+            "id": "chatGoogleGenerativeAI_0-input-modelName-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Custom Model Name",
+            "name": "customModelName",
+            "type": "string",
+            "placeholder": "gemini-1.5-pro-exp-0801",
+            "description": "Custom model name to use. If provided, it will override the model selected",
+            "additionalParams": true,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-customModelName-string",
+            "display": true
+          },
+          {
+            "label": "Temperature",
+            "name": "temperature",
+            "type": "number",
+            "step": 0.1,
+            "default": 0.9,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-temperature-number",
+            "display": true
+          },
+          {
+            "label": "Streaming",
+            "name": "streaming",
+            "type": "boolean",
+            "default": true,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-streaming-boolean",
+            "display": true
+          },
+          {
+            "label": "Allow Image Uploads",
+            "name": "allowImageUploads",
+            "type": "boolean",
+            "description": "Allow image input. Refer to the <a href=\"https://docs.flowiseai.com/using-flowise/uploads#image\" target=\"_blank\">docs</a> for more details.",
+            "default": false,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-allowImageUploads-boolean",
+            "display": true
+          },
+          {
+            "label": "Thinking Budget",
+            "name": "thinkingBudget",
+            "type": "number",
+            "description": "Guides the number of thinking tokens. -1 for dynamic, 0 to disable, or positive integer (Gemini 2.5 models).",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "show": {
+              "modelName": [
+                "gemini-2.5-pro",
+                "gemini-2.5-flash",
+                "gemini-2.5-flash-lite"
+              ]
+            },
+            "id": "chatGoogleGenerativeAI_0-input-thinkingBudget-number",
+            "display": true
+          },
+          {
+            "label": "Thinking Level",
+            "name": "thinkingLevel",
+            "type": "options",
+            "description": "Adjust the amount of reasoning effort based on the complexity of the user request",
+            "options": [
+              {
+                "label": "Low",
+                "name": "LOW"
+              },
+              {
+                "label": "Medium",
+                "name": "MEDIUM"
+              },
+              {
+                "label": "High",
+                "name": "HIGH"
+              }
+            ],
+            "optional": true,
+            "additionalParams": true,
+            "show": {
+              "modelName": [
+                "gemini-3.1-pro-preview",
+                "gemini-3.1-flash-lite-preview",
+                "gemini-3-flash-preview"
+              ]
+            },
+            "id": "chatGoogleGenerativeAI_0-input-thinkingLevel-options",
+            "display": false
+          },
+          {
+            "label": "Max Output Tokens",
+            "name": "maxOutputTokens",
+            "type": "number",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-maxOutputTokens-number",
+            "display": true
+          },
+          {
+            "label": "Top Probability",
+            "name": "topP",
+            "type": "number",
+            "step": 0.1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-topP-number",
+            "display": true
+          },
+          {
+            "label": "Top Next Highest Probability Tokens",
+            "name": "topK",
+            "type": "number",
+            "description": "Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-topK-number",
+            "display": true
+          },
+          {
+            "label": "Safety Settings",
+            "name": "safetySettings",
+            "type": "array",
+            "description": "Safety settings for the model. Refer to the <a href=\"https://ai.google.dev/gemini-api/docs/safety-settings\">official guide</a> on how to use Safety Settings",
+            "array": [
+              {
+                "label": "Harm Category",
+                "name": "harmCategory",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "Dangerous",
+                    "name": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "description": "Promotes, facilitates, or encourages harmful acts."
+                  },
+                  {
+                    "label": "Harassment",
+                    "name": "HARM_CATEGORY_HARASSMENT",
+                    "description": "Negative or harmful comments targeting identity and/or protected attributes."
+                  },
+                  {
+                    "label": "Hate Speech",
+                    "name": "HARM_CATEGORY_HATE_SPEECH",
+                    "description": "Content that is rude, disrespectful, or profane."
+                  },
+                  {
+                    "label": "Sexually Explicit",
+                    "name": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "description": "Contains references to sexual acts or other lewd content."
+                  },
+                  {
+                    "label": "Civic Integrity",
+                    "name": "HARM_CATEGORY_CIVIC_INTEGRITY",
+                    "description": "Election-related queries."
+                  }
+                ]
+              },
+              {
+                "label": "Harm Block Threshold",
+                "name": "harmBlockThreshold",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "None",
+                    "name": "BLOCK_NONE",
+                    "description": "Always show regardless of probability of unsafe content"
+                  },
+                  {
+                    "label": "Only High",
+                    "name": "BLOCK_ONLY_HIGH",
+                    "description": "Block when high probability of unsafe content"
+                  },
+                  {
+                    "label": "Medium and Above",
+                    "name": "BLOCK_MEDIUM_AND_ABOVE",
+                    "description": "Block when medium or high probability of unsafe content"
+                  },
+                  {
+                    "label": "Low and Above",
+                    "name": "BLOCK_LOW_AND_ABOVE",
+                    "description": "Block when low, medium or high probability of unsafe content"
+                  },
+                  {
+                    "label": "Threshold Unspecified (Default Threshold)",
+                    "name": "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
+                    "description": "Threshold is unspecified, block using default threshold"
+                  }
+                ]
+              }
+            ],
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-safetySettings-array",
+            "display": true
+          },
+          {
+            "label": "Base URL",
+            "name": "baseUrl",
+            "type": "string",
+            "description": "Base URL for the API. Leave empty to use the default.",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-baseUrl-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Cache",
+            "name": "cache",
+            "type": "BaseCache",
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-cache-BaseCache",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "cache": "",
+          "modelName": "gemini-2.5-flash",
+          "customModelName": "",
+          "temperature": 0.9,
+          "streaming": true,
+          "allowImageUploads": "",
+          "thinkingBudget": "",
+          "thinkingLevel": "",
+          "maxOutputTokens": "",
+          "topP": "",
+          "topK": "",
+          "safetySettings": "",
+          "baseUrl": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|ChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable",
+            "name": "chatGoogleGenerativeAI",
+            "label": "ChatGoogleGenerativeAI",
+            "description": "Wrapper around Google Gemini large language models that use the Chat endpoint",
+            "type": "ChatGoogleGenerativeAI | ChatGoogleGenerativeAI | BaseChatModel | BaseLanguageModel | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 675,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 360.6489330501231,
+        "y": 154.48654544111355
+      },
+      "dragging": false
+    },
+    {
+      "id": "googleGenerativeAiEmbeddings_0",
+      "position": {
+        "x": -286.8728192885826,
+        "y": 832.8089327089344
+      },
+      "type": "customNode",
+      "data": {
+        "id": "googleGenerativeAiEmbeddings_0",
+        "label": "Google Gemini Embedding",
+        "version": 2,
+        "name": "googleGenerativeAiEmbeddings",
+        "type": "GoogleGenerativeAiEmbeddings",
+        "baseClasses": [
+          "GoogleGenerativeAiEmbeddings",
+          "GoogleGenerativeAIEmbeddings",
+          "Embeddings"
+        ],
+        "category": "Embeddings",
+        "description": "Google Generative API to generate embeddings for a given text",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "googleGenerativeAI"
+            ],
+            "optional": false,
+            "description": "Google Generative AI credential.",
+            "id": "googleGenerativeAiEmbeddings_0-input-credential-credential",
+            "display": true
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "default": "gemini-embedding-001",
+            "id": "googleGenerativeAiEmbeddings_0-input-modelName-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Task Type",
+            "name": "tasktype",
+            "type": "options",
+            "description": "Type of task for which the embedding will be used",
+            "options": [
+              {
+                "label": "TASK_TYPE_UNSPECIFIED",
+                "name": "TASK_TYPE_UNSPECIFIED"
+              },
+              {
+                "label": "RETRIEVAL_QUERY",
+                "name": "RETRIEVAL_QUERY"
+              },
+              {
+                "label": "RETRIEVAL_DOCUMENT",
+                "name": "RETRIEVAL_DOCUMENT"
+              },
+              {
+                "label": "SEMANTIC_SIMILARITY",
+                "name": "SEMANTIC_SIMILARITY"
+              },
+              {
+                "label": "CLASSIFICATION",
+                "name": "CLASSIFICATION"
+              },
+              {
+                "label": "CLUSTERING",
+                "name": "CLUSTERING"
+              }
+            ],
+            "default": "TASK_TYPE_UNSPECIFIED",
+            "id": "googleGenerativeAiEmbeddings_0-input-tasktype-options",
+            "display": true
+          },
+          {
+            "label": "Strip New Lines",
+            "name": "stripNewLines",
+            "type": "boolean",
+            "optional": true,
+            "additionalParams": true,
+            "description": "Remove new lines from input text before embedding to reduce token count",
+            "id": "googleGenerativeAiEmbeddings_0-input-stripNewLines-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "modelName": "gemini-embedding-001",
+          "tasktype": "RETRIEVAL_DOCUMENT",
+          "stripNewLines": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings",
+            "name": "googleGenerativeAiEmbeddings",
+            "label": "GoogleGenerativeAiEmbeddings",
+            "description": "Google Generative API to generate embeddings for a given text",
+            "type": "GoogleGenerativeAiEmbeddings | GoogleGenerativeAIEmbeddings | Embeddings"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 524,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -286.8728192885826,
+        "y": 832.8089327089344
+      },
+      "dragging": false
+    },
+    {
+      "id": "pinecone_0",
+      "position": {
+        "x": 135.70357179277954,
+        "y": 843.1482577804532
+      },
+      "type": "customNode",
+      "data": {
+        "id": "pinecone_0",
+        "label": "Pinecone",
+        "version": 5,
+        "name": "pinecone",
+        "type": "Pinecone",
+        "baseClasses": [
+          "Pinecone",
+          "VectorStoreRetriever",
+          "BaseRetriever"
+        ],
+        "category": "Vector Stores",
+        "description": "Upsert embedded data and perform similarity or mmr search using Pinecone, a leading fully managed hosted vector database",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "pineconeApi"
+            ],
+            "id": "pinecone_0-input-credential-credential",
+            "display": true
+          },
+          {
+            "label": "Pinecone Index",
+            "name": "pineconeIndex",
+            "type": "string",
+            "id": "pinecone_0-input-pineconeIndex-string",
+            "display": true
+          },
+          {
+            "label": "Pinecone Namespace",
+            "name": "pineconeNamespace",
+            "type": "string",
+            "placeholder": "my-first-namespace",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-pineconeNamespace-string",
+            "display": true
+          },
+          {
+            "label": "File Upload",
+            "name": "fileUpload",
+            "description": "Allow file upload on the chat",
+            "hint": {
+              "label": "How to use",
+              "value": "\n**File Upload**\n\nThis allows file upload on the chat. Uploaded files will be upserted on the fly to the vector store.\n\n**Note:**\n- You can only turn on file upload for one vector store at a time.\n- At least one Document Loader node should be connected to the document input.\n- Document Loader should be file types like PDF, DOCX, TXT, etc.\n\n**How it works**\n- Uploaded files will have the metadata updated with the chatId.\n- This will allow the file to be associated with the chatId.\n- When querying, metadata will be filtered by chatId to retrieve files associated with the chatId.\n"
+            },
+            "type": "boolean",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-fileUpload-boolean",
+            "display": true
+          },
+          {
+            "label": "Pinecone Text Key",
+            "name": "pineconeTextKey",
+            "description": "The key in the metadata for storing text. Default to `text`",
+            "type": "string",
+            "placeholder": "text",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-pineconeTextKey-string",
+            "display": true
+          },
+          {
+            "label": "Pinecone Metadata Filter",
+            "name": "pineconeMetadataFilter",
+            "type": "json",
+            "optional": true,
+            "additionalParams": true,
+            "acceptVariable": true,
+            "id": "pinecone_0-input-pineconeMetadataFilter-json",
+            "display": true
+          },
+          {
+            "label": "Top K",
+            "name": "topK",
+            "description": "Number of top results to fetch. Default to 4",
+            "placeholder": "4",
+            "type": "number",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-topK-number",
+            "display": true
+          },
+          {
+            "label": "Search Type",
+            "name": "searchType",
+            "type": "options",
+            "default": "similarity",
+            "options": [
+              {
+                "label": "Similarity",
+                "name": "similarity"
+              },
+              {
+                "label": "Max Marginal Relevance",
+                "name": "mmr"
+              }
+            ],
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-searchType-options",
+            "display": true
+          },
+          {
+            "label": "Fetch K (for MMR Search)",
+            "name": "fetchK",
+            "description": "Number of initial documents to fetch for MMR reranking. Default to 20. Used only when the search type is MMR",
+            "placeholder": "20",
+            "type": "number",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-fetchK-number",
+            "display": true
+          },
+          {
+            "label": "Lambda (for MMR Search)",
+            "name": "lambda",
+            "description": "Number between 0 and 1 that determines the degree of diversity among the results, where 0 corresponds to maximum diversity and 1 to minimum diversity. Used only when the search type is MMR",
+            "placeholder": "0.5",
+            "type": "number",
+            "additionalParams": true,
+            "optional": true,
+            "id": "pinecone_0-input-lambda-number",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Document",
+            "name": "document",
+            "type": "Document",
+            "list": true,
+            "optional": true,
+            "id": "pinecone_0-input-document-Document",
+            "display": true
+          },
+          {
+            "label": "Embeddings",
+            "name": "embeddings",
+            "type": "Embeddings",
+            "id": "pinecone_0-input-embeddings-Embeddings",
+            "display": true
+          },
+          {
+            "label": "Record Manager",
+            "name": "recordManager",
+            "type": "RecordManager",
+            "description": "Keep track of the record to prevent duplication",
+            "optional": true,
+            "id": "pinecone_0-input-recordManager-RecordManager",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "document": "",
+          "embeddings": "{{googleGenerativeAiEmbeddings_0.data.instance}}",
+          "recordManager": "",
+          "pineconeIndex": "scm-rag",
+          "pineconeNamespace": "",
+          "fileUpload": "",
+          "pineconeTextKey": "",
+          "pineconeMetadataFilter": "",
+          "topK": "20",
+          "searchType": "similarity",
+          "fetchK": "",
+          "lambda": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "",
+            "options": [
+              {
+                "id": "pinecone_0-output-retriever-Pinecone|VectorStoreRetriever|BaseRetriever",
+                "name": "retriever",
+                "label": "Pinecone Retriever",
+                "description": "",
+                "type": "Pinecone | VectorStoreRetriever | BaseRetriever"
+              },
+              {
+                "id": "pinecone_0-output-vectorStore-Pinecone|VectorStore",
+                "name": "vectorStore",
+                "label": "Pinecone Vector Store",
+                "description": "",
+                "type": "Pinecone | VectorStore"
+              }
+            ],
+            "default": "retriever"
+          }
+        ],
+        "outputs": {
+          "output": "vectorStore"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 610,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 135.70357179277954,
+        "y": 843.1482577804532
+      },
+      "dragging": false
+    },
+    {
+      "id": "vectorStoreRetriever_0",
+      "position": {
+        "x": 607.2014667412467,
+        "y": 884.4771897322821
+      },
+      "type": "customNode",
+      "data": {
+        "id": "vectorStoreRetriever_0",
+        "label": "Vector Store Retriever",
+        "version": 1,
+        "name": "vectorStoreRetriever",
+        "type": "VectorStoreRetriever",
+        "baseClasses": [
+          "VectorStoreRetriever"
+        ],
+        "category": "Retrievers",
+        "description": "Store vector store as retriever to be later queried by MultiRetrievalQAChain",
+        "inputParams": [
+          {
+            "label": "Retriever Name",
+            "name": "name",
+            "type": "string",
+            "placeholder": "netflix movies",
+            "id": "vectorStoreRetriever_0-input-name-string",
+            "display": true
+          },
+          {
+            "label": "Retriever Description",
+            "name": "description",
+            "type": "string",
+            "rows": 3,
+            "description": "Description of when to use the vector store retriever",
+            "placeholder": "Good for answering questions about netflix movies",
+            "id": "vectorStoreRetriever_0-input-description-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Vector Store",
+            "name": "vectorStore",
+            "type": "VectorStore",
+            "id": "vectorStoreRetriever_0-input-vectorStore-VectorStore",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "vectorStore": "{{pinecone_0.data.instance}}",
+          "name": "SCM Retriever",
+          "description": "Retrieves relevant information from supplier performance records and supply chain governance documents to answer user queries."
+        },
+        "outputAnchors": [
+          {
+            "id": "vectorStoreRetriever_0-output-vectorStoreRetriever-VectorStoreRetriever",
+            "name": "vectorStoreRetriever",
+            "label": "VectorStoreRetriever",
+            "description": "Store vector store as retriever to be later queried by MultiRetrievalQAChain",
+            "type": "VectorStoreRetriever"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 511,
+      "positionAbsolute": {
+        "x": 607.2014667412467,
+        "y": 884.4771897322821
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "multiRetrievalQAChain_0",
+      "position": {
+        "x": 1186.8492513321235,
+        "y": 825.7176427916272
+      },
+      "type": "customNode",
+      "data": {
+        "id": "multiRetrievalQAChain_0",
+        "label": "Multi Retrieval QA Chain",
+        "version": 2,
+        "name": "multiRetrievalQAChain",
+        "type": "MultiRetrievalQAChain",
+        "baseClasses": [
+          "MultiRetrievalQAChain",
+          "MultiRouteChain",
+          "BaseChain",
+          "Runnable"
+        ],
+        "category": "Chains",
+        "description": "QA Chain that automatically picks an appropriate vector store from multiple retrievers",
+        "inputParams": [
+          {
+            "label": "Return Source Documents",
+            "name": "returnSourceDocuments",
+            "type": "boolean",
+            "optional": true,
+            "id": "multiRetrievalQAChain_0-input-returnSourceDocuments-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Language Model",
+            "name": "model",
+            "type": "BaseLanguageModel",
+            "id": "multiRetrievalQAChain_0-input-model-BaseLanguageModel",
+            "display": true
+          },
+          {
+            "label": "Vector Store Retriever",
+            "name": "vectorStoreRetriever",
+            "type": "VectorStoreRetriever",
+            "list": true,
+            "id": "multiRetrievalQAChain_0-input-vectorStoreRetriever-VectorStoreRetriever",
+            "display": true
+          },
+          {
+            "label": "Input Moderation",
+            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "name": "inputModeration",
+            "type": "Moderation",
+            "optional": true,
+            "list": true,
+            "id": "multiRetrievalQAChain_0-input-inputModeration-Moderation",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "model": "{{chatGoogleGenerativeAI_0.data.instance}}",
+          "vectorStoreRetriever": [
+            "{{vectorStoreRetriever_0.data.instance}}"
+          ],
+          "returnSourceDocuments": "",
+          "inputModeration": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "multiRetrievalQAChain_0-output-multiRetrievalQAChain-MultiRetrievalQAChain|MultiRouteChain|BaseChain|Runnable",
+            "name": "multiRetrievalQAChain",
+            "label": "MultiRetrievalQAChain",
+            "description": "QA Chain that automatically picks an appropriate vector store from multiple retrievers",
+            "type": "MultiRetrievalQAChain | MultiRouteChain | BaseChain | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 434,
+      "positionAbsolute": {
+        "x": 1186.8492513321235,
+        "y": 825.7176427916272
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "googleGenerativeAiEmbeddings_0",
+      "sourceHandle": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings",
+      "target": "pinecone_0",
+      "targetHandle": "pinecone_0-input-embeddings-Embeddings",
+      "type": "buttonedge",
+      "id": "googleGenerativeAiEmbeddings_0-googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings-pinecone_0-pinecone_0-input-embeddings-Embeddings"
+    },
+    {
+      "source": "chatGoogleGenerativeAI_0",
+      "sourceHandle": "chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|ChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable",
+      "target": "multiRetrievalQAChain_0",
+      "targetHandle": "multiRetrievalQAChain_0-input-model-BaseLanguageModel",
+      "type": "buttonedge",
+      "id": "chatGoogleGenerativeAI_0-chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|ChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable-multiRetrievalQAChain_0-multiRetrievalQAChain_0-input-model-BaseLanguageModel"
+    },
+    {
+      "source": "pinecone_0",
+      "sourceHandle": "pinecone_0-output-vectorStore-Pinecone|VectorStore",
+      "target": "vectorStoreRetriever_0",
+      "targetHandle": "vectorStoreRetriever_0-input-vectorStore-VectorStore",
+      "type": "buttonedge",
+      "id": "pinecone_0-pinecone_0-output-vectorStore-Pinecone|VectorStore-vectorStoreRetriever_0-vectorStoreRetriever_0-input-vectorStore-VectorStore"
+    },
+    {
+      "source": "vectorStoreRetriever_0",
+      "sourceHandle": "vectorStoreRetriever_0-output-vectorStoreRetriever-VectorStoreRetriever",
+      "target": "multiRetrievalQAChain_0",
+      "targetHandle": "multiRetrievalQAChain_0-input-vectorStoreRetriever-VectorStoreRetriever",
+      "type": "buttonedge",
+      "id": "vectorStoreRetriever_0-vectorStoreRetriever_0-output-vectorStoreRetriever-VectorStoreRetriever-multiRetrievalQAChain_0-multiRetrievalQAChain_0-input-vectorStoreRetriever-VectorStoreRetriever"
+    }
+  ]
+}
